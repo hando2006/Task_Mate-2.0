@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>J.A.R.V.I.S TaskMate</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="jarvis-container">
+    <h1 class="title">J.A.R.V.I.S TaskMate</h1>
+    <form action="/add" method="POST" class="task-input">
+      <input type="text" name="task" placeholder="Enter a task...">
+      <button type="submit">Add</button>
+    </form>
+    <form action="/voice" method="POST">
+      <button type="submit">🎙️ Voice Add</button>
+    </form>
+    <ul id="taskList">
+      {% for task in tasks %}
+        <li>
+          {{ "[✔] " if task[2] else "" }}{{ task[1] }}
+          {% if not task[2] %}
+            <a href="/done/{{ task[0] }}">✅</a>
+          {% endif %}
+          <form action="/delete/{{ task[0] }}" method="POST" style="display:inline;">
+            <button type="submit" onclick="return confirm('Delete this task?');">🗑️</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>
